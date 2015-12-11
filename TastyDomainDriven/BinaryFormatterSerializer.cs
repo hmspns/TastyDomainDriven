@@ -3,7 +3,7 @@
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
 
-    internal class BinaryFormatterSerializer : IEventSerializer
+    public sealed class BinaryFormatterSerializer : IEventSerializer
     {
         readonly BinaryFormatter formatter = new BinaryFormatter();
 
