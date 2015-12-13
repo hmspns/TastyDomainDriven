@@ -1,32 +1,35 @@
-﻿using System.Collections;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace EventStreamFx.Core
 {
-	public class EventStore
+	public interface IEventStoreWriter
 	{
-		public Task<IDataStream> ReadStream(string identifier, long version, long take)
-		{
-			return null;
-		}
-
-		public Task AppendStream(string identifier, long expectedVersion, IEventStream stream)
-		{
-			return null;
-		}
-
-		public Task<IDataStream> ReadStream(long version, long take)
-		{
-			return null;
-		}
+		Task AppendStream(string identifier, long expectedVersion, object stream);
 	}
 
-	public interface IEventStream : IEnumerable
+	public interface IEventStoreReader
 	{
+		Task<IEventSteam> ReadStream(string identifier, long version, long take);
+
+		Task<IEventSteam> ReadStream(long version, long take);
 	}
 
-	public interface IDataStream
+	public interface IEventSteam
 	{
-		Task Read();
+		int Version { get; }
+
+		IEventData[] Events { get; }
+	}
+
+	public interface IEventData
+	{
+		object TypeName { get; }
+
+		object Id { get; }
+		
+		Guid EventId { get; }
+
+		DateTime Timestamp { get; }
 	}
 }
